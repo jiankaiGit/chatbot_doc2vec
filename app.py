@@ -18,9 +18,10 @@ AnswererCurQuestIndex = {}
 f = None
 
 import os
-path = "./UserAnswer"
+path = "UserAnswer"
 if not os.path.isdir(path):
     os.mkdir(path)
+    print(" create dir successful")
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -115,6 +116,7 @@ def questionList(event, index,uuid):
         f = open(path+"/"+uuid+".txt", 'a')
         #把答案寫進檔案裡
         f.write(event.message.text + "\n")
+        print(path)
     if index == 0:
         text = "您的姓名:"
 
