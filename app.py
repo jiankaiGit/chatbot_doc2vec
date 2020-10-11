@@ -116,6 +116,8 @@ def questionList(event, index,uuid):
         f = open(path+"/"+uuid+".txt", 'a')
         #把答案寫進檔案裡
         f.write(event.message.text + "\n")
+
+        f = open(path+"/"+uuid+".txt", "r")
         print("-----------------"+f.read())
 
     if index == 0:
