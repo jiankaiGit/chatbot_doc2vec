@@ -18,7 +18,7 @@ AnswererCurQuestIndex = {}
 f = None
 
 import os
-path = "UserAnswer"
+path = "./UserAnswer"
 if not os.path.isdir(path):
     os.mkdir(path)
 
