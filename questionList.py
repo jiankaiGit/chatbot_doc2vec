@@ -86,7 +86,7 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         text = "您預計的論文領域級研究方向/內容:"
 
     elif index == 9:
-        message = TemplateSendMessage(
+        buttons_template = TemplateSendMessage(
             alt_text="Carousel template",
             template=CarouselTemplate(
                 columns=[
