@@ -21,7 +21,7 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         f.write(event.message.text + "\n")
 
     if index == 0:
-        response = "您的姓名:"
+        response = TextSendMessage("您的姓名:")
 
     elif index == 1:
         response = TemplateSendMessage(
@@ -44,17 +44,17 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         #line_bot_api.reply_message(event.reply_token, buttons_template)
         return "continue"
     elif index == 2:
-        response = "您有興趣加入的實驗室或指導教授:"
+        response = TextSendMessage("您有興趣加入的實驗室或指導教授:")
         
     elif index == 3:
-        response = "您擁有哪些專長/專業:"   
+        response = TextSendMessage("您擁有哪些專長/專業:")   
     elif index == 4:
-        response = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
+        response = TextSendMessage("我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果")
         #line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
         #回傳結束符號
         return "end"
         
     else:
-       response = "您好"
+       response = TextSendMessage("您好")
     line_bot_api.reply_message(event.reply_token, response)
     return "continue"
