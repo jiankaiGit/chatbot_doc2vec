@@ -18,9 +18,11 @@ from linebotConfig import getToken,getKey
 from questionList import selectedQuestion
 
 # Channel Access Token
-line_bot_api = LineBotApi(getToken())
+myToken = getToken()
+myKey = getKey()
+line_bot_api = LineBotApi(str(myToken)
 # Channel Secret
-handler = WebhookHandler(getKey())
+handler = WebhookHandler(str(myKey)
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
