@@ -110,13 +110,25 @@ def handle_message(event):
 
 def getResult(id):
     #測試語句
-    str1 = "SPSS   SAS   STATA   Excel"
-    test_text = str1.split(' ')
+    f = open(path+"/"+uuid+".txt", 'w')
+    answer = ""
+    with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
+        for line in f:
+            if len(line)>0:
+                answer += line.strip()
+    
+    #str1 = "SPSS   SAS   STATA   Excel"
+    #test_text = str1.split(' ')
     #取得向量
-    inferred_vector = model.infer_vector(doc_words=test_text,alpha=0.025,steps=300)
+    analysisText = answer.split(' ')
+    inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     #相似度比較 topn取出最相似的句數
     sims = model.docvecs.most_similar([inferred_vector],topn=2)
-    print(sims)
+    answerId = ""
+    for count,sim in sims:
+        answerId += count + "\n"
+    print("使用者: "+id+" 回答:"+answer)
+    line_bot_api.reply_message(userTokenDict[id], TextSendMessage(text=answerId))
 
 
 def questionList(event, index,uuid):
