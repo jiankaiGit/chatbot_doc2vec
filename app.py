@@ -114,7 +114,7 @@ def handle_message(event):
         #用使用者的UUID當 key 儲存每個使用者現在回答到第幾題
         AnswererCurQuestIndex[uuid] = 0
         #回應題目
-        questionList(event,0,uuid)
+        selectedQuestion(event,0,uuid)
         #使用者目前題號+1
         AnswererCurQuestIndex[uuid] = 1
     elif event.message.text == "取消":
