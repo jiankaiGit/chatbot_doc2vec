@@ -19,6 +19,7 @@ handler = WebhookHandler("994675102d50dfee59c7edfc417ecbc0")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 userTokenDict = {}
+labMappingTable = {'1':"實驗室一",'2':"實驗室二"}
 f = None
 
 #載入模型
@@ -125,7 +126,7 @@ def getResult(uuid):
     sims = model.docvecs.most_similar([inferred_vector],topn=2)
     answerId = ""
     for count,sim in sims:
-        answerId += count + "\n"
+        answerId += labMappingTable[count] + "\n"
 
     line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
 
