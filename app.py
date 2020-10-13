@@ -125,6 +125,9 @@ def handle_message(event):
             AnswererCurQuestIndex[uuid] = AnswererCurQuestIndex.get(uuid) + 1
             #finish question and clear data from AnswererCurQuestIndex
             if result == "end":
+                #創建一個執行續做文檔分析
+                t = threading.Thread(target = analysisMostNSim, args = (uuid,))
+                t.start()
                 #若答題結束就將該帳號ID刪除 下次使用可以重新來過
                 AnswererCurQuestIndex.pop(uuid)
         else:
@@ -169,9 +172,6 @@ def questionList(event, index,uuid):
     elif index == 4:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
-        #創建一個執行續做文檔分析
-        t = threading.Thread(target = analysisMostNSim, args = (uuid,))
-        t.start()
         #回傳結束符號
         return "end"
         
