@@ -108,7 +108,7 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入媒合推薦或點選按鈕"))
 
-def getResult(uuid,lineToken):
+def getResult(uuid,lineReplyToken):
     #測試語句
     f = open(path+"/"+uuid+".txt", 'w')
     answer = ""
@@ -128,7 +128,7 @@ def getResult(uuid,lineToken):
     for count,sim in sims:
         answerId += count + "\n"
     print("使用者: "+uuid+" 回答:"+answer)
-    line_bot_api.reply_message(userTokenDict[uuid], TextSendMessage(text=answerId))
+    line_bot_api.reply_message(lineReplyToken, TextSendMessage(text=answerId))
 
 
 def questionList(event, index,uuid):
