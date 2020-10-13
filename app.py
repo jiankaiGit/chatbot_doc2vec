@@ -164,7 +164,17 @@ def questionList(event, index,uuid):
         text = "您有興趣加入的實驗室或指導教授:"
         
     elif index == 3:
-        text = "您擁有哪些專長/專業:"       
+        text = "您擁有哪些專長/專業:"   
+    elif index == 4:
+        text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
+        t = threading.Thread(target = getResult, args = (uuid,))
+        t.start()
+        #回傳結束符號
+        return "end"
+        
+    else:
+       text = "您好"     
     '''
     elif index == 4:
         text = "您有哪些興趣/嗜好:"
@@ -374,8 +384,7 @@ def questionList(event, index,uuid):
         line_bot_api.reply_message(event.reply_token, buttons_template)
         return "continue"
     elif index == 23:
-        text = "您對自我的期望與目標:"
-    '''    
+        text = "您對自我的期望與目標:"    
     elif index == 4:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
@@ -386,7 +395,7 @@ def questionList(event, index,uuid):
         
     else:
        text = "您好" 
-       
+    '''   
     line_bot_api.reply_message(event.reply_token,TextSendMessage(str(index+1)+". "+text))
     return "continue"
 
