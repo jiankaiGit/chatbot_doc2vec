@@ -13,7 +13,9 @@ if not os.path.isdir(path):
     print(" create dir successful")
 
 def selectedQuestion(event, index,uuid,line_bot_api):
-        #從1開始才是第1題的答案
+    text = ""
+    buttons_template = ""
+    #從1開始才是第1題的答案
     if index !=0:
         f = open(path+"/"+uuid+".txt", 'a')
         #把答案寫進檔案裡
@@ -253,10 +255,10 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         
     else:
        text = "您好"
-    if text != "":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(str(index+1)+". "+text))
-    else:
+
+    if text == "":
         line_bot_api.reply_message(event.reply_token,buttons_template)
-    text = ""
-    buttons_template = ""
+
+    else:
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(str(index+1)+". "+text))
     return "continue"
