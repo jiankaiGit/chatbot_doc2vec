@@ -15,6 +15,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import linebotConfig
 
 from linebotConfig import getToken,getKey
+from questionList import selectedQuestion
 
 # Channel Access Token
 line_bot_api = LineBotApi(getToken())
@@ -124,7 +125,7 @@ def handle_message(event):
     else:
         answerQuestIndex = AnswererCurQuestIndex.get(uuid)
         if answerQuestIndex != None:
-            result = questionList(event,answerQuestIndex,uuid)
+            result = selectedQuestion(event,answerQuestIndex,uuid)
             AnswererCurQuestIndex[uuid] = AnswererCurQuestIndex.get(uuid) + 1
             #finish question and clear data from AnswererCurQuestIndex
             if result == "end":
