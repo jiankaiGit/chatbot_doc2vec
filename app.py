@@ -10,6 +10,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateS
 app = Flask(__name__)
 import threading
 import gensim
+import os
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 # Channel Access Token
@@ -24,7 +25,7 @@ f = None
 #載入模型
 model = Doc2Vec.load("doc2vec.model")
 
-import os
+#創建UserAnswer資料夾
 path = "UserAnswer"
 if not os.path.isdir(path):
     os.mkdir(path)
@@ -49,8 +50,7 @@ def callback():
 
     return 'OK'
 
-def getResult(uuid):
-    #測試語句
+def analysisMostNSim(uuid):
     answer = ""
     with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
         for line in f:
@@ -67,12 +67,13 @@ def getResult(uuid):
     resultIndex = 0
     for count,sim in sims:
         count = str(int(count)+1)
+        #此處判斷避免最後一個結果加上換行，造成line上面看會多一行空白
         if(resultIndex +1 == len(sims)):
             answerId += labMappingTable[count]
         else:
             answerId += labMappingTable[count] + "\n"
         resultIndex +=1
-
+    #推送結果給使用者
     line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
     
 
@@ -168,7 +169,8 @@ def questionList(event, index,uuid):
     elif index == 4:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
-        t = threading.Thread(target = getResult, args = (uuid,))
+        #創建一個執行續做文檔分析
+        t = threading.Thread(target = analysisMostNSim, args = (uuid,))
         t.start()
         #回傳結束符號
         return "end"
@@ -388,7 +390,7 @@ def questionList(event, index,uuid):
     elif index == 4:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
-        t = threading.Thread(target = getResult, args = (uuid,))
+        t = threading.Thread(target = analysisMostNSim, args = (uuid,))
         t.start()
         #回傳結束符號
         return "end"
