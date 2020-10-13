@@ -120,7 +120,7 @@ def getResult(uuid):
     analysisText = answer.split(' ')
     #取得向量
     inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
-    print("使用者: "+uuid+" 回答:"+analysisText)
+    print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
     #相似度比較 topn取出最相似的句數
     sims = model.docvecs.most_similar([inferred_vector],topn=2)
     answerId = ""
@@ -165,7 +165,7 @@ def questionList(event, index,uuid):
         
     elif index == 3:
         text = "您擁有哪些專長/專業:"       
-
+    '''
     elif index == 4:
         text = "您有哪些興趣/嗜好:"
 
@@ -375,8 +375,8 @@ def questionList(event, index,uuid):
         return "continue"
     elif index == 23:
         text = "您對自我的期望與目標:"
-        
-    elif index == 24:
+    '''    
+    elif index == 4:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
         t = threading.Thread(target = getResult, args = (uuid,))
