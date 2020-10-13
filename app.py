@@ -357,7 +357,8 @@ def questionList(event, index,uuid):
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
         userTokenDict[uuid] = event.reply_token
-        threading.Thread(target = getResult, args = (uuid,))
+        t = threading.Thread(target = getResult, args = (uuid,))
+        t.start()
         #回傳結束符號
         return "end"
         
