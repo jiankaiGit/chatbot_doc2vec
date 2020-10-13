@@ -10,6 +10,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateS
 app = Flask(__name__)
 import threading
 import gensim
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 # Channel Access Token
 line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yGrvtx/hByMdENKtVNJvD/fELbO8/UCeNCpsTzXrPBjOXqaVPXlSudGWET/JmQiB9ubxT2fyD9WBVB7fj7JCb4jHysu8QE1xMXgdB04t89/1O/w1cDnyilFU=")
@@ -19,6 +20,9 @@ thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 userTokenDict = {}
 f = None
+
+#載入模型
+model = Doc2Vec.load("doc2vec.model")
 
 import os
 path = "UserAnswer"
@@ -105,7 +109,14 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入媒合推薦或點選按鈕"))
 
 def getResult(id):
-    print(id)
+    #測試語句
+    str1 = "SPSS   SAS   STATA   Excel"
+    test_text = str1.split(' ')
+    #取得向量
+    inferred_vector = model.infer_vector(doc_words=test_text,alpha=0.025,steps=300)
+    #相似度比較 topn取出最相似的句數
+    sims = model.docvecs.most_similar([inferred_vector],topn=2)
+    print(sims)
 
 
 def questionList(event, index,uuid):
