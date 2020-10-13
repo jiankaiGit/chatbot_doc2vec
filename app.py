@@ -112,7 +112,7 @@ def handle_message(event):
         #用使用者的UUID當 key 儲存每個使用者現在回答到第幾題
         AnswererCurQuestIndex[uuid] = 0
         #回應題目
-        selectedQuestion(event,0,uuid)
+        selectedQuestion(event,0,uuid,line_bot_api)
         #使用者目前題號+1
         AnswererCurQuestIndex[uuid] = 1
     elif event.message.text == "取消":
@@ -123,7 +123,7 @@ def handle_message(event):
     else:
         answerQuestIndex = AnswererCurQuestIndex.get(uuid)
         if answerQuestIndex != None:
-            result = selectedQuestion(event,answerQuestIndex,uuid)
+            result = selectedQuestion(event,answerQuestIndex,uuid,line_bot_api)
             AnswererCurQuestIndex[uuid] = AnswererCurQuestIndex.get(uuid) + 1
             #finish question and clear data from AnswererCurQuestIndex
             if result == "end":

@@ -12,7 +12,7 @@ if not os.path.isdir(path):
     os.mkdir(path)
     print(" create dir successful")
 
-def selectedQuestion(event, index,uuid):
+def selectedQuestion(event, index,uuid,line_bot_api):
     response = ""
     #從1開始才是第1題的答案
     if index !=0:
