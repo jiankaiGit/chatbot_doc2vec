@@ -12,7 +12,6 @@ import threading
 import gensim
 import os
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-import linebotConfig
 from questionList import selectedQuestion
 
 # Channel Access Token
