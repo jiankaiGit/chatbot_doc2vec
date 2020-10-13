@@ -13,8 +13,6 @@ if not os.path.isdir(path):
     print(" create dir successful")
 
 def selectedQuestion(event, index,uuid,line_bot_api):
-    text = ""
-    buttons_template = ""
         #從1開始才是第1題的答案
     if index !=0:
         f = open(path+"/"+uuid+".txt", 'a')
@@ -259,4 +257,6 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(str(index+1)+". "+text))
     else:
         line_bot_api.reply_message(event.reply_token,buttons_template)
+    text = ""
+    buttons_template = ""
     return "continue"
