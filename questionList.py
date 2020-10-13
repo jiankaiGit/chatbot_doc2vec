@@ -249,6 +249,7 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         text = "您對自我的期望與目標:"    
     elif index == 24:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
         #回傳結束符號
         return "end"
         
