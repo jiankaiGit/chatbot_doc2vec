@@ -8,6 +8,7 @@ from linebot.exceptions import (
 )
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, ButtonsTemplate, MessageTemplateAction, ConfirmTemplate, PostbackTemplateAction, CarouselTemplate, CarouselColumn, URITemplateAction
 app = Flask(__name__)
+import threading
 
 # Channel Access Token
 line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yGrvtx/hByMdENKtVNJvD/fELbO8/UCeNCpsTzXrPBjOXqaVPXlSudGWET/JmQiB9ubxT2fyD9WBVB7fj7JCb4jHysu8QE1xMXgdB04t89/1O/w1cDnyilFU=")
@@ -15,6 +16,7 @@ line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yG
 handler = WebhookHandler("994675102d50dfee59c7edfc417ecbc0")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
+userTokenDict = {}
 f = None
 
 import os
@@ -101,13 +103,8 @@ def handle_message(event):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入媒合推薦或點選按鈕"))
 
-    
-    #在這邊寫迴圈 只要每次有一個訊息近來就會直接跑完，所以每次都是第一題，因此必須用全域變數的方式寫
-    # for i in range(len(q_list)):
-    #     if event.message.text != " ":
-    #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=q_list[i]))
-    #     else:
-    #         line_bot_api.reply_message(event.reply_token, message = "Error")
+def getResult(id):
+    print(id)
 
 
 def questionList(event, index,uuid):
@@ -116,9 +113,6 @@ def questionList(event, index,uuid):
         f = open(path+"/"+uuid+".txt", 'a')
         #把答案寫進檔案裡
         f.write(event.message.text + "\n")
-
-        f = open(path+"/"+uuid+".txt", "r")
-        print("-----------------"+f.read())
 
     if index == 0:
         text = "您的姓名:"
@@ -362,6 +356,8 @@ def questionList(event, index,uuid):
     elif index == 24:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
+        userTokenDict[uuid] = event.reply_token
+        threading.Thread(target = getResult, args = (uuid,))
         #回傳結束符號
         return "end"
         
