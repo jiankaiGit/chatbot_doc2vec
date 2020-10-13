@@ -14,10 +14,12 @@ import os
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import linebotConfig
 
+from linebotConfig import getToken,getKey
+
 # Channel Access Token
-line_bot_api = LineBotApi(linebotToken)
+line_bot_api = LineBotApi(getToken())
 # Channel Secret
-handler = WebhookHandler(linebotKey)
+handler = WebhookHandler(getKey())
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
