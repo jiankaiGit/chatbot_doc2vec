@@ -49,8 +49,7 @@ def selectedQuestion(event, index,uuid,line_bot_api):
         
     elif index == 3:
         text = "您擁有哪些專長/專業:"   
-    else:
-       text = "您好"     
+   
     elif index == 4:
         text = "您有哪些興趣/嗜好:"
 
@@ -258,7 +257,6 @@ def selectedQuestion(event, index,uuid,line_bot_api):
 
     if text == "":
         line_bot_api.reply_message(event.reply_token,buttons_template)
-
     else:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(str(index+1)+". "+text))
     return "continue"
