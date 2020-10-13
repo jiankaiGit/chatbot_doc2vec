@@ -18,7 +18,6 @@ line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yG
 handler = WebhookHandler("994675102d50dfee59c7edfc417ecbc0")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
-userTokenDict = {}
 labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
 f = None
 
@@ -75,6 +74,7 @@ def getResult(uuid):
         resultIndex +=1
 
     line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
+    
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -120,11 +120,6 @@ def handle_message(event):
     else:
         answerQuestIndex = AnswererCurQuestIndex.get(uuid)
         if answerQuestIndex != None:
-            #---原本期望用for迴圈做問卷一問一答，但似乎LineBot本身設定就無法進行，永遠僅會出現第一題---
-            # q_list = ["1. 您的姓名：", "2. 您的性別：", "3. 您有興趣加入的實驗室或指導教授：","我們已收到您的資料，謝謝您的耐心填答!"]
-
-            # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=q_list[answerQuestIndex]))
-
             result = questionList(event,answerQuestIndex,uuid)
             AnswererCurQuestIndex[uuid] = AnswererCurQuestIndex.get(uuid) + 1
             #finish question and clear data from AnswererCurQuestIndex
