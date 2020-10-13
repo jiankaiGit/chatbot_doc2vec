@@ -5,12 +5,13 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, ButtonsTemplate, MessageTemplateAction, ConfirmTemplate, PostbackTemplateAction, CarouselTemplate, CarouselColumn, URITemplateAction
+import os
 #創建UserAnswer資料夾
 path = "UserAnswer"
 if not os.path.isdir(path):
     os.mkdir(path)
     print(" create dir successful")
-    
+
 def selectedQuestion(event, index,uuid):
     response = ""
     #從1開始才是第1題的答案
