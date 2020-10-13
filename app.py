@@ -50,6 +50,31 @@ def callback():
 
     return 'OK'
 
+def getResult(uuid):
+    #測試語句
+    answer = ""
+    with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
+        for line in f:
+            if len(line)>0:
+                answer += line.strip()
+
+    analysisText = answer.split(' ')
+    #取得向量
+    inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
+    print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
+    #相似度比較 topn取出最相似的句數
+    sims = model.docvecs.most_similar([inferred_vector],topn=2)
+    answerId = "媒合結果為:\n"
+    resultIndex = 0
+    for count,sim in sims:
+        count = str(int(count)+1)
+        if(resultIndex +1 == len(sims)):
+            answerId += labMappingTable[count]
+        else:
+            answerId += labMappingTable[count] + "\n"
+        resultIndex +=1
+
+    line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -108,27 +133,6 @@ def handle_message(event):
                 AnswererCurQuestIndex.pop(uuid)
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入媒合推薦或點選按鈕"))
-
-def getResult(uuid):
-    #測試語句
-    answer = ""
-    with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
-        for line in f:
-            if len(line)>0:
-                answer += line.strip()
-
-    analysisText = answer.split(' ')
-    #取得向量
-    inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
-    print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
-    #相似度比較 topn取出最相似的句數
-    sims = model.docvecs.most_similar([inferred_vector],topn=2)
-    answerId = ""
-    for count,sim in sims:
-        count = str(int(count)+1)
-        answerId += labMappingTable[count] + "\n"
-
-    line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
 
 
 def questionList(event, index,uuid):
