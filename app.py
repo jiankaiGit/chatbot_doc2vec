@@ -110,24 +110,23 @@ def handle_message(event):
 
 def getResult(uuid):
     #測試語句
-    f = open(path+"/"+uuid+".txt", 'w')
     answer = ""
     with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
         for line in f:
             if len(line)>0:
                 answer += line.strip()
     
-    #str1 = "SPSS   SAS   STATA   Excel"
-    #test_text = str1.split(' ')
-    #取得向量
+
     analysisText = answer.split(' ')
+    #取得向量
     inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
+    print("使用者: "+uuid+" 回答:"+analysisText)
     #相似度比較 topn取出最相似的句數
     sims = model.docvecs.most_similar([inferred_vector],topn=2)
     answerId = ""
     for count,sim in sims:
         answerId += count + "\n"
-    print("使用者: "+uuid+" 回答:"+answer)
+
     line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
 
 
@@ -380,7 +379,6 @@ def questionList(event, index,uuid):
     elif index == 24:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
-        userTokenDict[uuid] = event.reply_token
         t = threading.Thread(target = getResult, args = (uuid,))
         t.start()
         #回傳結束符號
