@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, send_from_directory
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -11,6 +11,8 @@ app = Flask(__name__)
 import threading
 import gensim
 import os
+import zipfile
+
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from questionList import selectedQuestion
 
@@ -31,6 +33,20 @@ path = "UserAnswer"
 if not os.path.isdir(path):
     os.mkdir(path)
     print(" create dir successful")
+
+def zip_dir(sPath):
+    zf = zipfile.ZipFile('{}.zip'.format(path), 'w', zipfile.ZIP_DEFLATED)
+    for root, dirs, files in os.walk(sPath):
+        for file_name in files:
+            zf.write(os.path.join(root, file_name))
+
+@app.route('/download', methods=['GET'])
+def download():
+    zip_dir(path)
+    fileName = path+ ".zip"
+    dirpath = os.getcwd
+    return send_from_directory(dirpath,fileName, as_attachment=True)
+    
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
