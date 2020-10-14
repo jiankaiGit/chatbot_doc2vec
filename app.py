@@ -44,7 +44,7 @@ def zip_dir(sPath):
 def download():
     zip_dir(path)
     fileName = path+ ".zip"
-    dirpath = os.getcwd
+    dirpath = os.getcwd()
     return send_from_directory(dirpath,fileName, as_attachment=True)
     
 
