@@ -16,10 +16,15 @@ import zipfile
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from questionList import selectedQuestion
 
+#import sys
+#import datetime
+#import gspread
+#from oauth2client.service_account import ServiceAccountCredentials as SAC
+
 # Channel Access Token
-line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yGrvtx/hByMdENKtVNJvD/fELbO8/UCeNCpsTzXrPBjOXqaVPXlSudGWET/JmQiB9ubxT2fyD9WBVB7fj7JCb4jHysu8QE1xMXgdB04t89/1O/w1cDnyilFU=")
+line_bot_api = LineBotApi('f8xfrqy35VXi2c7aRBT8EBi8ikah63Txp4ymxWK26Qe7g38Ve+I9CuMvyeMcxA4LylkNmp7fZB+XXTn8RcDrxKMtlhRyVkiD5ZZRenjNDsnSPsyEaK98gBVtiPK+55MgPVKWvAfJrCeDyT0Y6OdregdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler("994675102d50dfee59c7edfc417ecbc0")
+handler = WebhookHandler('94b6fee2df87aff3e3a92e3413523669')
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
@@ -34,12 +39,14 @@ if not os.path.isdir(path):
     os.mkdir(path)
     print(" create dir successful")
 
+#壓縮指定的資料夾
 def zip_dir(sPath):
     zf = zipfile.ZipFile('{}.zip'.format(path), 'w', zipfile.ZIP_DEFLATED)
     for root, dirs, files in os.walk(sPath):
         for file_name in files:
             zf.write(os.path.join(root, file_name))
 
+#監聽下載動作的請求
 @app.route('/download', methods=['GET'])
 def download():
     zip_dir(path)
