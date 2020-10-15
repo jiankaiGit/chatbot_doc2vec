@@ -22,9 +22,9 @@ from questionList import selectedQuestion
 #from oauth2client.service_account import ServiceAccountCredentials as SAC
 
 # Channel Access Token
-line_bot_api = LineBotApi('f8xfrqy35VXi2c7aRBT8EBi8ikah63Txp4ymxWK26Qe7g38Ve+I9CuMvyeMcxA4LylkNmp7fZB+XXTn8RcDrxKMtlhRyVkiD5ZZRenjNDsnSPsyEaK98gBVtiPK+55MgPVKWvAfJrCeDyT0Y6OdregdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('J4ZAc6FQW2v7ZRi+LsttNSkQMqJLnfo+987q35q0c6DqrcsSbLWh/G41mw23yRl7p6Bf+9RQhESgmFNGUW/D9arAOsC+cLi/nCDSCQsUuo2wxpn6hHgNZXTgurk6gMGZ8wb+sGyC/UyLxTVxxcD4LgdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('94b6fee2df87aff3e3a92e3413523669')
+handler = WebhookHandler('afbedf4f7a5ca98c8866817935a74fc2')
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
