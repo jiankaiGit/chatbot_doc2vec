@@ -22,7 +22,14 @@ line_bot_api = LineBotApi("J4ZAc6FQW2v7ZRi+LsttNSkQMqJLnfo+987q35q0c6DqrcsSbLWh/
 handler = WebhookHandler("afbedf4f7a5ca98c8866817935a74fc2")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
-labMappingTable = {'1':"實驗室一",'2':"實驗室二",'3':"實驗室三",'4':"實驗室四"}
+labImage = {1:"https://i.imgur.com/iufU8tU.jpg",2:"https://i.imgur.com/iufU8tU.jpg",3:"https://i.imgur.com/iufU8tU.jpg",4:"https://i.imgur.com/iufU8tU.jpg"}
+labMappingTable = {1:"實驗室一",2:"實驗室二",3:"實驗室三",4:"實驗室四"}
+lab = {1:'1. 互相幫助及學習'+'\n'+'2. 團體合作'+'\n'+'3. 友善', 2:'1. 輕鬆愉快'+'\n'+'2. 開心'+'\n'+'3. 舒服', 
+           3:'1. 融洽'+'\n'+'2. 友愛'+'\n'+'3. 互助', 4:'1. 融洽'+'\n'+'2. 輕鬆愉快'+'\n'+'3. 不拘謹'}
+pro = {1:'1. 友善,會關心學生近況'+'\n'+'2. 開放'+'\n'+'3. 會針對學生不同的想法給建議', 2:'1. 開放'+'\n'+'2. 自由'+'\n'+'3. 直接直爽', 
+           3:'1. 嚴謹'+'\n'+'2. 有自己的想法及原則'+'\n'+'3. 樂於分享價值觀及人生經驗談', 4:'1. 隨興放任自由'+'\n'+'2. 目標性明確'+'\n'+'3. 不會限制學生'}
+suitable = {1:'1. 玩桌遊'+'\n'+'2.打籃球'+'\n'+'3.野餐', 2:'1. 紅酒'+'\n'+'2. 高爾夫'+'\n'+'3. 玩電動', 
+           3:'1. 爬山'+'\n'+'2. 種樹'+'\n'+'3. 踏青', 4:'1. 辦活動'+'\n'+'2. 社交'}
 f = None
 
 #載入模型
@@ -40,6 +47,32 @@ def zip_dir(sPath):
     for root, dirs, files in os.walk(sPath):
         for file_name in files:
             zf.write(os.path.join(root, file_name))
+            
+def carouselColumnMaker(index):
+    carouselColumnElement = CarouselColumn(
+                    thumbnail_image_url=labImage[index],
+                    title=labMappingTable[index],
+                    text=labMappingTable[index],
+                    actions=[
+                        PostbackTemplateAction(
+                            label='實驗室風格',
+                            text=lab[index],
+                            data='notResponse'
+                        ),
+                        PostbackTemplateAction(
+                            label='教授風格',
+                            text=pro[index],
+                            data='notResponse'
+                        ),
+                        PostbackTemplateAction(
+                            label='合適人選',
+                            text=suitable[index],
+                            data='notResponse'
+                        )
+                    ]
+                )
+    
+    return carouselColumnElement
 
 #監聽下載動作的請求
 @app.route('/download', methods=['GET'])
@@ -81,19 +114,32 @@ def analysisMostNSim(uuid):
     inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
     #相似度比較 topn取出最相似的句數
-    sims = model.docvecs.most_similar([inferred_vector],topn=2)
+    sims = model.docvecs.most_similar([inferred_vector],topn=3)
     answerId = "媒合結果為:\n"
     resultIndex = 0
+    carouselMessageList = []
     for count,sim in sims:
-        count = str(int(count)+1)
+        LabIndex = int(count)+1
         #此處判斷避免最後一個結果加上換行，造成line上面看會多一行空白
-        if(resultIndex +1 == len(sims)):
-            answerId += labMappingTable[count]
-        else:
-            answerId += labMappingTable[count] + "\n"
-        resultIndex +=1
+        # if(resultIndex +1 == len(sims)):
+        #     answerId += labMappingTable[count]
+        # else:
+        #     answerId += labMappingTable[count] + "\n"
+        # resultIndex +=1
+        #製作回答的卡片內容
+        carouselMessageList.append(carouselColumnMaker(LabIndex))
+    
+    #回覆卡片式的回應樣式
+    carousel_template_message = TemplateSendMessage(
+        alt_text='Carousel template',
+        template=CarouselTemplate(
+            columns=carouselMessageList
+        )
+    )
+    
+    
     #推送結果給使用者
-    line_bot_api.push_message(uuid, TextSendMessage(text=answerId))
+    line_bot_api.push_message(uuid, carousel_template_message)
     
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -103,27 +149,7 @@ def handle_message(event):
     # print(uuid)
     #print(type(msg))
     msg = msg.encode("utf-8")
-    if event.message.text == "媒合推薦":
-        buttons_template3 = TemplateSendMessage(
-            alt_text="媒合推薦",
-            template=ButtonsTemplate(
-                title="歡迎使用媒合推薦系統 ~",
-                text="請點選開始測驗或於文字欄中輸入開始測驗",
-                thumbnail_image_url="https://i.imgur.com/iufU8tU.jpg",
-                actions=[
-                    MessageTemplateAction(
-                        label="開始測驗",
-                        text="開始測驗"
-                    ),
-                    MessageTemplateAction(
-                        label="取消",
-                        text="取消"
-                    )
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, buttons_template3)
-    elif event.message.text == "開始測驗":
+    if event.message.text == "開始測驗":
         #開啟檔案，若不存在則創建新檔案
         f = open(path+"/"+uuid+".txt", 'w')
         #用使用者的UUID當 key 儲存每個使用者現在回答到第幾題
