@@ -23,7 +23,8 @@ handler = WebhookHandler("afbedf4f7a5ca98c8866817935a74fc2")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labImage = {1:"https://i.imgur.com/iufU8tU.jpg",2:"https://i.imgur.com/iufU8tU.jpg",3:"https://i.imgur.com/iufU8tU.jpg",4:"https://i.imgur.com/iufU8tU.jpg"}
-labMappingTable = {1:"實驗室一",2:"實驗室二",3:"實驗室三",4:"實驗室四"}
+labMappingTable = {1:"行動數位服務實驗室",2:"高科技產業研究實驗室",3:"人力資源管理實驗室",4:"企業分析與平價實驗室",5:"企業營運管理實驗室",6:"電子商務實驗室",7:"行銷與人工智慧實驗室",8:"口碑行銷實驗室",9:"張譯尹教授的實驗室",10:"數據分析與決策實驗室",11:"黃美慈教授的實驗室",12:"全球行銷創新實驗室",13:"行為科學管理實驗室",14:"腦科學行銷策略實驗室"}
+labPro = {1:"曾盛恕 教授",2:"張順教 教授",3:"葉穎蓉 教授",4:"郭啟賢 ",5:"鄭仁偉 教授",6:"欒斌 教授",7:"吳克振 教授",8:"林孟彥 教授",9:"張譯尹 教授",10:"呂志豪 教授",11:"黃美慈 教授",12:"盛麗慧 教授",13:"謝亦泰 教授",14:"王蕙芝 教授"}
 lab = {1:'1. 互相幫助及學習'+'\n'+'2. 團體合作'+'\n'+'3. 友善', 2:'1. 輕鬆愉快'+'\n'+'2. 開心'+'\n'+'3. 舒服', 
            3:'1. 融洽'+'\n'+'2. 友愛'+'\n'+'3. 互助', 4:'1. 融洽'+'\n'+'2. 輕鬆愉快'+'\n'+'3. 不拘謹'}
 pro = {1:'1. 友善,會關心學生近況'+'\n'+'2. 開放'+'\n'+'3. 會針對學生不同的想法給建議', 2:'1. 開放'+'\n'+'2. 自由'+'\n'+'3. 直接直爽', 
@@ -52,7 +53,7 @@ def carouselColumnMaker(index):
     carouselColumnElement = CarouselColumn(
                     thumbnail_image_url=labImage[index],
                     title=labMappingTable[index],
-                    text=labMappingTable[index],
+                    text=labPro[index],
                     actions=[
                         PostbackTemplateAction(
                             label='實驗室風格',

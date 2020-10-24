@@ -74,16 +74,16 @@ def selectedQuestion(event, index,uuid,line_bot_api):
                 text=str(index+1)+". 您所期望實驗室的人數:",
                 actions=[
                     MessageTemplateAction(
-                        label="1-5人",
-                        text="1-5人"
+                        label="1~5人",
+                        text="1~5人"
                     ),
                     MessageTemplateAction(
-                        label="6-10人",
-                        text="6-10人"
+                        label="6~10人",
+                        text="6~10人"
                     ),
                     MessageTemplateAction(
-                        label="11-15人",
-                        text="11-15人"
+                        label="11~15人",
+                        text="11~15人"
                     ),
                     MessageTemplateAction(
                         label="16人以上",
@@ -101,12 +101,12 @@ def selectedQuestion(event, index,uuid,line_bot_api):
                 text=str(index+1)+". 您預計待在實驗室的時間:",
                 actions=[
                     MessageTemplateAction(
-                        label="1-3天",
-                        text="1-3天"
+                        label="1~3天",
+                        text="1~3天"
                     ),
                     MessageTemplateAction(
-                        label="4-6天",
-                        text="4-6天"
+                        label="4~6天",
+                        text="4~6天"
                     ),
                     MessageTemplateAction(
                         label="每天",
@@ -124,12 +124,12 @@ def selectedQuestion(event, index,uuid,line_bot_api):
                 text=str(index+1)+". 您期望與指導教授開會的頻率:",
                 actions=[
                     MessageTemplateAction(
-                        label="每周一次",
-                        text="每周一次"
+                        label="每週一次",
+                        text="每週一次"
                     ),
                     MessageTemplateAction(
-                        label="每周兩次",
-                        text="每周兩次"
+                        label="兩週一次",
+                        text="兩週一次"
                     ),
                     MessageTemplateAction(
                         label="無固定",
@@ -169,7 +169,7 @@ def selectedQuestion(event, index,uuid,line_bot_api):
                         ]
                     ),
                     CarouselColumn(
-                        title=str(index+1)+" ",
+                        title=str(index+1)+". 您預計的論文時程:",
                         text=" ",
                         actions=[
                             MessageTemplateAction(
@@ -226,10 +226,10 @@ def selectedQuestion(event, index,uuid,line_bot_api):
     elif index == 18:
         text = "您期望能在實驗室中學習到哪些事物:"  
         
-    elif index == 20:
+    elif index == 19:
         text = "您對自我的期望與目標:"   
         
-    elif index == 21:
+    elif index == 20:
         text = "我們已收到您的資料，謝謝您的耐心填答，請稍等媒合結果"
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text))
         #回傳結束符號
