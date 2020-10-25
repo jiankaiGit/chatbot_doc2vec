@@ -22,7 +22,8 @@ line_bot_api = LineBotApi("J4ZAc6FQW2v7ZRi+LsttNSkQMqJLnfo+987q35q0c6DqrcsSbLWh/
 handler = WebhookHandler("afbedf4f7a5ca98c8866817935a74fc2")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
-labImage = {1:"https://i.imgur.com/iufU8tU.jpg",2:"https://i.imgur.com/iufU8tU.jpg",3:"https://i.imgur.com/iufU8tU.jpg",4:"https://i.imgur.com/iufU8tU.jpg"}
+labImage = {1:"https://i.imgur.com/iufU8tU.jpg",2:"https://i.imgur.com/iufU8tU.jpg",3:"https://i.imgur.com/iufU8tU.jpg",4:"https://i.imgur.com/iufU8tU.jpg",5:"https://i.imgur.com/iufU8tU.jpg",6:"https://i.imgur.com/iufU8tU.jpg",7:"https://i.imgur.com/iufU8tU.jpg",
+            8:"https://i.imgur.com/iufU8tU.jpg",9:"https://i.imgur.com/iufU8tU.jpg",10:"https://i.imgur.com/iufU8tU.jpg",11:"https://i.imgur.com/iufU8tU.jpg",12:"https://i.imgur.com/iufU8tU.jpg",13:"https://i.imgur.com/iufU8tU.jpg",14:"https://i.imgur.com/iufU8tU.jpg"}
 labMappingTable = {1:"行動數位服務實驗室(MA 402)",2:"高科技產業研究實驗室(T2 409)",3:"人力資源管理實驗室(MA 403)",4:"企業分析與平價實驗室(MA 504)",5:"企業營運管理實驗室(T2 302-2)",6:"電子商務實驗室(T2 409)",7:"行銷與人工智慧實驗室(MA 504)",
                    8:"口碑行銷實驗室(MA 401)",9:"張譯尹教授的實驗室(T2 410)",10:"數據分析與決策實驗室(T2 302-2)",11:"黃美慈教授的實驗室(MA 403)",12:"全球行銷創新實驗室(MA 402)",13:"行為科學管理實驗室(T2 410)",14:"腦科學行銷策略實驗室(MA 401)"}
 
