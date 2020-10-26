@@ -136,6 +136,7 @@ def analysisMostNSim(uuid):
     print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
     #相似度比較 topn取出最相似的句數
     sims = model.docvecs.most_similar([inferred_vector],topn=5)
+    print(sims)
     answerId = "媒合結果為:\n"
     resultIndex = 0
     carouselMessageList = []
