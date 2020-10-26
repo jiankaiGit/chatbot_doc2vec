@@ -64,7 +64,7 @@ def mostSimilar(wantAnalysisFile, topNear, doc2vecModel):
     analysisText = answer
     print(analysisText)
     #取得向量
-    model.random.seed(0)
+    #model.random.seed(0)
     inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     #相似度比較 topn取出最相似的句數
     sims = model.docvecs.most_similar([inferred_vector],topn=topNear)

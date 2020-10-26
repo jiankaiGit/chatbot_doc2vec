@@ -123,6 +123,7 @@ def callback():
     return 'OK'
 
 def analysisMostNSim(uuid):
+    model = Doc2Vec.load("doc2vec.model")
     answer = []
     with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
         for line in f:
