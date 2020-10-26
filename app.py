@@ -123,13 +123,13 @@ def callback():
     return 'OK'
 
 def analysisMostNSim(uuid):
-    answer = ""
+    answer = []
     with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
         for line in f:
             if len(line)>0:
-                answer += line.strip()
+                answer.append(line.replace('\n',""))
 
-    analysisText = answer.split(' ')
+    analysisText = answer
     #取得向量
     inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     print("使用者: "+str(uuid)+" 回答: "+str(analysisText))
