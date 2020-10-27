@@ -15,6 +15,7 @@ import jieba
 stopwords = []
 trainFilePath = "文本檔案/"          
 allFilePaths = os.listdir(trainFilePath)
+allFilePaths.sort(key= lambda x:int(x[:-4]))
 filePaths = []
 documents = []
 rawDocuments = []
@@ -34,21 +35,20 @@ def preProcessData():
         words = []
         with open(trainFilePath+fileName,'r',encoding='utf-8') as f:
             for line in f:
-
+                words.append(line.replace("\n", ""))
                 # jieba分詞
-                cut = jieba.cut(line)
+                #cut = jieba.cut(line)
                 
                 #停用詞過濾
-                for word in cut:
-                    if word not in stopwords and word != '\n':
-                        words.append(word)
+                #for word in cut:
+                    #if word not in stopwords and word != '\n':
+                        #words.append(word)
             # 填入TaggedDocument格式
-            documents.append(gensim.models.doc2vec.TaggedDocument(words, [str(count)]))
-            rawDocuments.append(words)
-            count += 1
-            print(words)
-            print("------------")
-
+        documents.append(gensim.models.doc2vec.TaggedDocument(words, [str(count)]))
+        rawDocuments.append(words)
+        count += 1
+        #print(words)
+        #print("------------")
                 
 #分析相似度
 # wantAnalysisFile 想要分析的檔案
@@ -59,27 +59,28 @@ def mostSimilar(wantAnalysisFile, topNear, doc2vecModel):
     with open(wantAnalysisFile, 'r', encoding='utf-8') as f:
         for line in f:
             if len(line)>0:
-                answer.append(line.replace('\n',""))
+                answer.append(line.replace('\n',"").strip())
 
     analysisText = answer
-    print(analysisText)
+
     #取得向量
     #model.random.seed(0)
-    inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     #相似度比較 topn取出最相似的句數
+    inferred_vector = model.infer_vector(doc_words=analysisText,alpha=0.025,steps=300)
     sims = model.docvecs.most_similar([inferred_vector],topn=topNear)
     return sims
 
 import os
 if __name__ == "__main__":
     #設定停用詞
-    #setStopWords()
+    setStopWords()
     #處理要訓練的資料
-    #preProcessData()
+    preProcessData()
     #訓練模型
-    #model = Doc2Vec(documents, vector_size=200, window=2, min_count=1, workers=4)
+    model = Doc2Vec(documents, vector_size=300, window=5, min_count=1, workers=4,epochs=70)
+    #model.train(documents,  )
     #儲存模型
-    #model.save("doc2vec.model")
+    model.save("doc2vec.model")
     #載入模型
     model = Doc2Vec.load("doc2vec.model")
     

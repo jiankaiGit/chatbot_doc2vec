@@ -128,7 +128,7 @@ def analysisMostNSim(uuid):
     with open(path+"/"+uuid+".txt", 'r', encoding='utf-8') as f:
         for line in f:
             if len(line)>0:
-                answer.append(line.replace('\n',""))
+                answer.append(line.replace('\n',"").strip())
 
     analysisText = answer
     #取得向量
