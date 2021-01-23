@@ -17,9 +17,9 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from questionList import selectedQuestion
 
 # Channel Access Token
-line_bot_api = LineBotApi("jqeFTerwBf33iLEXJNLYiB3Ub4wboThj5RtlMM4Ank2qMqwOga7yGrvtx/hByMdENKtVNJvD/fELbO8/UCeNCpsTzXrPBjOXqaVPXlSudGWET/JmQiB9ubxT2fyD9WBVB7fj7JCb4jHysu8QE1xMXgdB04t89/1O/w1cDnyilFU=")
+line_bot_api = LineBotApi("your_key")
 # Channel Secret
-handler = WebhookHandler("994675102d50dfee59c7edfc417ecbc0")
+handler = WebhookHandler("your_secret")
 thankString = "謝謝您的參與"
 AnswererCurQuestIndex = {}
 labImage = {1:"https://i.imgur.com/QcVH54U.jpg?2",2:"https://i.imgur.com/Klh6yCM.gif",3:"https://i.imgur.com/WIlKLhO.jpg?1",4:"https://i.imgur.com/5WKTi3s.jpg",5:"https://i.imgur.com/dXD5dpN.jpg",6:"https://i.imgur.com/Kvh2duH.jpg?1",7:"https://i.imgur.com/yNbdQCv.jpg",
